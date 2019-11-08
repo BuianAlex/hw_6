@@ -22,8 +22,11 @@ function factorial(number) {
 }
 
 function fib(number) {
-  const result = 1;
-
-  return result;
+  const tempStor = [0, 1];
+  for (let index = 2; index <= number; index += 1) {
+    const res = tempStor[index - 1] + tempStor[index - 2];
+    tempStor.push(res);
+  }
+  return tempStor[number];
 }
 module.exports = { isPrime, factorial, fib };
