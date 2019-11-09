@@ -29,4 +29,22 @@ function fib(number) {
   }
   return tempStor[number];
 }
-module.exports = { isPrime, factorial, fib };
+
+function isSorted(arr) {
+  let res = true;
+  for (let index = 0; index < arr.length - 1; index += 1) {
+    if (arr[index] > arr[index + 1]) {
+      res = false;
+      break;
+    }
+  }
+  return res;
+}
+const qqq = isSorted([3, 9, -3, 10]);
+
+module.exports = {
+  isPrime,
+  factorial,
+  fib,
+  isSorted,
+};

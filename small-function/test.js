@@ -66,3 +66,30 @@ describe('Fibonacci', () => {
     });
   });
 });
+describe('isSorted', () => {
+  describe('test []', () => {
+    it('should return true', () => {
+      assert.equal(fun.isSorted([]), true);
+    });
+  });
+  describe('test [-Infinity, -5, 0, 3, 9]', () => {
+    it('should return true', () => {
+      assert.equal(fun.isSorted([-Infinity, -5, 0, 3, 9]), true);
+    });
+  });
+  describe('test [3, 9, -3, 10]', () => {
+    it('should return false', () => {
+      assert.equal(fun.isSorted([3, 9, -3, 10]), false);
+    });
+  });
+  describe('test [3, 9, 9, 10]', () => {
+    it('should return true', () => {
+      assert.equal(fun.isSorted([3, 9, 9, 10]), true);
+    });
+  });
+  describe('test [3, 9, 9, -10]', () => {
+    it('should return true', () => {
+      assert.equal(fun.isSorted([3, 9, 9, -10]), false);
+    });
+  });
+});
