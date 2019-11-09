@@ -35,16 +35,36 @@ function isSorted(arr) {
   for (let index = 0; index < arr.length - 1; index += 1) {
     if (arr[index] > arr[index + 1]) {
       res = false;
-      break;
+      return res;
     }
   }
   return res;
 }
-const qqq = isSorted([3, 9, -3, 10]);
+
+function reverse(str) {
+  let revString = '';
+  for (let index = str.length - 1; index >= 0; index -= 1) {
+    revString += str[index];
+  }
+  return revString;
+}
+
+function indexOf(array, element) {
+  let posElement = -1;
+  for (let index = 0; index < array.length; index += 1) {
+    if (array[index] === element) {
+      posElement = index;
+      return posElement;
+    }
+  }
+  return posElement;
+}
 
 module.exports = {
   isPrime,
   factorial,
   fib,
   isSorted,
+  reverse,
+  indexOf,
 };
