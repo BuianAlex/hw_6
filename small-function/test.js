@@ -119,3 +119,53 @@ describe('function custom indexOf', () => {
     });
   });
 });
+
+describe('function isPalindrome ', () => {
+  describe('test string  " " ', () => {
+    it('should return true', () => {
+      assert.equal(fun.isPalindrome(' '), true);
+    });
+  });
+  describe('test string  abcdcba', () => {
+    it('should return true', () => {
+      assert.equal(fun.isPalindrome('abcdcba'), true);
+    });
+  });
+  describe('test string  abcd', () => {
+    it('should return false', () => {
+      assert.equal(fun.isPalindrome('abcd'), false);
+    });
+  });
+  describe('test string - A man a plan a canal Panama', () => {
+    it('should return true', () => {
+      assert.equal(fun.isPalindrome('A man a plan a canal Panama'), true);
+    });
+  });
+});
+describe('function missing', () => {
+  describe('test array   [] ', () => {
+    it('should return undefined', () => {
+      assert.equal(fun.missing([]), undefined);
+    });
+  });
+  describe('test array [1, 4, 3]', () => {
+    it('should return 2', () => {
+      assert.equal(fun.missing([1, 4, 3]), 2);
+    });
+  });
+  describe('test array [2, 3, 4]', () => {
+    it('should return 1', () => {
+      assert.equal(fun.missing([2, 3, 4]), 1);
+    });
+  });
+  describe('test array [5, 1, 4, 2]', () => {
+    it('should return 3', () => {
+      assert.equal(fun.missing([5, 1, 4, 2]), 3);
+    });
+  });
+  describe('test array [1, 2, 3, 4]', () => {
+    it('should return undefined', () => {
+      assert.equal(fun.missing([1, 2, 3, 4]), undefined);
+    });
+  });
+});

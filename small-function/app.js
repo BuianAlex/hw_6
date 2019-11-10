@@ -49,15 +49,42 @@ function reverse(str) {
   return revString;
 }
 
-function indexOf(array, element) {
-  let posElement = -1;
+function indexOf(array, item) {
+  let indexItem = -1;
   for (let index = 0; index < array.length; index += 1) {
-    if (array[index] === element) {
-      posElement = index;
-      return posElement;
+    if (array[index] === item) {
+      indexItem = index;
+      return indexItem;
     }
   }
-  return posElement;
+  return indexItem;
+}
+
+function isPalindrome(str) {
+  let prepStr = str.toLowerCase();
+  prepStr = prepStr.replace(/\s/g, '');
+  let index = 0;
+  let res = true;
+  while (index < prepStr.length - index - 1) {
+    if (prepStr[index] !== prepStr[prepStr.length - index - 1]) {
+      res = false;
+    }
+    index += 1;
+  }
+  return res;
+}
+
+function missing(array) {
+  let missingNumb;
+  let index = 1;
+  while (index <= array.length) {
+    if (indexOf(array, index) === -1) {
+      missingNumb = index;
+      return missingNumb;
+    }
+    index += 1;
+  }
+  return missingNumb;
 }
 
 module.exports = {
@@ -67,4 +94,6 @@ module.exports = {
   isSorted,
   reverse,
   indexOf,
+  isPalindrome,
+  missing,
 };
