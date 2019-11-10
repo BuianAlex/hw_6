@@ -142,6 +142,7 @@ describe('function isPalindrome ', () => {
     });
   });
 });
+
 describe('function missing', () => {
   describe('test array   [] ', () => {
     it('should return undefined', () => {
@@ -166,6 +167,39 @@ describe('function missing', () => {
   describe('test array [1, 2, 3, 4]', () => {
     it('should return undefined', () => {
       assert.equal(fun.missing([1, 2, 3, 4]), undefined);
+    });
+  });
+});
+
+describe('function isBalanced', () => {
+  describe('test string  }{', () => {
+    it('should return false', () => {
+      assert.equal(fun.isBalanced('}{'), false);
+    });
+  });
+  describe('test string  {{}', () => {
+    it('should return false', () => {
+      assert.equal(fun.isBalanced('{{}'), false);
+    });
+  });
+  describe('test string  {}{}', () => {
+    it('should return false', () => {
+      assert.equal(fun.isBalanced('{}{}'), false);
+    });
+  });
+  describe('test string  foo { bar { baz } boo }', () => {
+    it('should return true', () => {
+      assert.equal(fun.isBalanced('foo { bar { baz } boo }'), true);
+    });
+  });
+  describe('test string  foo { bar { baz }', () => {
+    it('should return false', () => {
+      assert.equal(fun.isBalanced('foo { bar { baz }'), false);
+    });
+  });
+  describe('test string  foo { bar } }', () => {
+    it('should return false', () => {
+      assert.equal(fun.isBalanced('foo { bar } }'), false);
     });
   });
 });
