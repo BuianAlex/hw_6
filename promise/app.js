@@ -1,7 +1,8 @@
 function perform() {
   // TODO implement
-  const f = arguments[1](arguments[0]);
+
   return new Promise((resolve, reject) => {
+    const f = arguments[1](arguments[0]);
     resolve(f);
   });
 }
