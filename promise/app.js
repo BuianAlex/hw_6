@@ -1,26 +1,23 @@
 function perform() {
-  //TODO implement
-
-  return arguments[1](arguments[0]);
+  // TODO implement
+  const f = arguments[1](arguments[0]);
+  return new Promise((resolve, reject) => {
+    resolve(f);
+  });
 }
 
-perform(20, function(value) {
-  console.log(value + "qqww"); // 20
-  var param = 1;
-  console.log(param + "dfdfd"); // 1
+perform(20, (value) => {
+  console.log(value); // 20
+  const param = 1;
+  console.log(param); // 1
   return param;
 })
-  .then("a", "b", function(a, b, param) {
-    console.log(param + "qqqq");
-
+  .then('a', 'b', (a, b, param) => {
     console.log(++param); // 2
     return param;
   })
-  .then(function(param) {
-    console.log(333);
-
+  .then((param) => {
     // param === 2
     console.log(++param); // 3
     return param;
-  })
-  .catch();
+  });
