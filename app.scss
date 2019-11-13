@@ -4,22 +4,32 @@
   height: 500px;
   margin: 100px auto;
   border: 1px solid #000;
+  background-image: url("./31184340.jpg");
 }
-.teg {
+.tagg {
   position: absolute;
   display: flex;
   cursor: pointer;
+  z-index: 0;
 }
-.tegTitle {
+.tagg.active {
+  cursor: grab;
+  z-index: 1;
+  &:active {
+    cursor: grabbing;
+  }
+  .taggDelete {
+    display: block;
+  }
+}
+.taggTitle {
   background-color: rgba(0, 0, 0, 0.603);
   color: #fff;
   padding: 0.5rem 1.5rem;
   border-radius: 5px;
-  :active {
-    cursor: grab;
-  }
+  user-select: none;
 }
-.tegDelete {
+.taggDelete {
   display: none;
   position: absolute;
   right: 0;
@@ -28,11 +38,9 @@
   color: #fff;
   padding: 0.5rem 0.5rem;
   border-radius: 5px;
+  cursor: pointer;
 }
-.tegDelete-left {
+.taggDelete-left {
   right: 100%;
   transform: translateX(0%);
-}
-.tegDelete.active {
-  display: block;
 }

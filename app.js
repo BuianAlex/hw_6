@@ -1,4 +1,4 @@
-let tagList = [
+let startTaggList = [
   {
     id: "0",
     name: "first",
@@ -8,164 +8,143 @@ let tagList = [
   {
     id: "1",
     name: "second",
-    x: 40,
-    y: 40
+    x: 145,
+    y: 170
   },
   {
     id: "2",
     name: "third",
-    x: 70,
-    y: 70
+    x: 14,
+    y: 320
   },
   {
     id: "3",
     name: "fourth",
-    x: 100,
-    y: 100
+    x: 370,
+    y: 260
   }
 ];
 
 class Tagging {
-  constructor() {
+  constructor(startTaggList) {
     this.wraper = document.querySelector("#app");
+    this.taggList = startTaggList;
     this.renderAll();
-    this.isDrawing = false;
-    this.rightBorder = false;
-    //this.activeTeg;
+    this.isMovable = false;
+    this.activeTagg;
   }
 
   renderAll() {
     this.wraper.innerHTML = "";
-    tagList.forEach(item => {
-      const teg = document.createElement("div");
-      teg.classList.add("teg");
-      teg.setAttribute(
-        "style",
-        `z-index: 0; left: ${item.x}px; top: ${item.y}px;`
-      );
-      teg.setAttribute("data-teg", item.id);
+    this.taggList.forEach(item => {
+      const tagg = document.createElement("div");
+      tagg.classList.add("tagg");
+      tagg.setAttribute("style", `left: ${item.x}px; top: ${item.y}px;`);
+      tagg.setAttribute("data-tagg", item.id);
 
-      const tegTitle = document.createElement("span");
-      tegTitle.textContent = item.name;
-      tegTitle.classList.add("tegTitle");
-      teg.appendChild(tegTitle);
+      const taggTitle = document.createElement("span");
+      taggTitle.textContent = item.name;
+      taggTitle.classList.add("taggTitle");
+      tagg.appendChild(taggTitle);
 
-      const tegDelete = document.createElement("span");
-      tegDelete.textContent = "X";
-      tegDelete.classList.add("tegDelete");
-      if (this.rightBorder) {
-        tegDelete.classList.add("tegDelete-left");
-      } else {
-        tegDelete.classList.remove("tegDelete-left");
-      }
-      if (item.active) {
-        tegDelete.classList.add("active");
-      }
+      const taggDelete = document.createElement("span");
+      taggDelete.textContent = "X";
+      taggDelete.classList.add("taggDelete");
 
-      teg.appendChild(tegDelete);
+      tagg.appendChild(taggDelete);
 
-      this.wraper.appendChild(teg);
+      this.wraper.appendChild(tagg);
     });
   }
 
-  moveTeg(e) {
-    if (this.isDrawing) {
-      for (let index = 0; index < tagList.length; index += 1) {
-        if (tagList[index].active) {
-          this.rightBorder = false;
-          let newPosX = e.clientX - rect.x;
-          let newPosY = e.clientY - rect.y;
-          if (newPosX < 0) {
-            tagList[index].x = 0;
-          } else if (newPosX > rect.width - rectTarget.width) {
-            tagList[index].x = rect.width - rectTarget.width;
-          } else {
-            tagList[index].x = newPosX;
-          }
-          if (newPosY < 0) {
-            tagList[index].y = 0;
-          } else if (newPosY > rect.height - rectTarget.height) {
-            tagList[index].y = rect.height - rectTarget.height;
-          } else {
-            tagList[index].y = newPosY;
-          }
-          if (newPosX > rect.width - rectTarget.width - 30) {
-            this.rightBorder = true;
-          }
-        }
+  moveTagg(pos) {
+    if (this.isMovable && this.activeTagg) {
+      const rectWraper = this.wraper.getBoundingClientRect();
+      const rectActive = this.activeTagg.getBoundingClientRect();
+      const deleteBtn = this.activeTagg.querySelector(".taggDelete");
+      deleteBtn.classList.remove("taggDelete-left");
+      let newPosX = pos.clientX - rectWraper.x - rectActive.width * 0.5;
+      let newPosY = pos.clientY - rectWraper.y - rectActive.height * 0.5;
+      if (newPosX < 0) {
+        this.activeTagg.style.left = 0 + "px";
+      } else if (newPosX > rectWraper.width - rectActive.width) {
+        this.activeTagg.style.left = rectWraper.width - rectActive.width + "px";
+      } else {
+        this.activeTagg.style.left = newPosX + "px";
       }
-      test.renderAll();
+      if (newPosY < 0) {
+        this.activeTagg.style.top = 0 + "px";
+      } else if (newPosY > rectWraper.height - rectActive.height) {
+        this.activeTagg.style.top =
+          rectWraper.height - rectActive.height + "px";
+      } else {
+        this.activeTagg.style.top = newPosY + "px";
+      }
+      if (newPosX > rectWraper.width - rectActive.width - 30) {
+        deleteBtn.classList.add("taggDelete-left");
+      }
     }
   }
-  renderOne() {
-    const rer = document.createElement("p");
-    this.wraper.childNodes.forEach((node, i) => {
-      if (node.getAttribute("data-teg") === "3") {
-        console.log(node);
-        node.style.left = "500px";
-      }
-    });
-  }
 
-  deleteTeg() {
-    let filtered = tagList.filter(item => item.id !== tegId);
-    tagList = filtered;
+  deleteTagg() {
+    let taggId = this.activeTagg.getAttribute("data-tagg");
+    let filtered = this.taggList.filter(item => item.id !== taggId);
+    this.taggList = filtered;
     this.wraper.childNodes.forEach((node, i) => {
-      if (node.getAttribute("data-teg") === tegId) {
+      if (node.getAttribute("data-tagg") === taggId) {
         this.wraper.removeChild(this.wraper.childNodes[i]);
       }
     });
-    // let filtered = tagList.filter(item => item.id !== tegId);
-    // tagList = filtered;
-    // this.renderAll();
   }
-  setActive(id) {
-    console.log("aaa");
-    this.renderOne();
-    for (let index = 0; index < tagList.length; index += 1) {
-      if (tagList[index].id === id) {
-        tagList[index].active = true;
-      } else {
-        tagList[index].active = false;
+
+  setActive(active) {
+    this.activeTagg = active;
+    this.activeTagg.classList.add("active");
+    let deleteBtn = this.activeTagg.querySelector(".taggDelete");
+    deleteBtn.classList.add("active");
+  }
+
+  setMovable(target) {
+    this.isMovable = false;
+    if (target) {
+      if (target.parentNode === this.activeTagg) {
+        this.isMovable = true;
       }
     }
-    this.renderAll();
+  }
+
+  cleanActive() {
+    this.Movable = false;
+    if (this.activeTagg) {
+      this.activeTagg.classList.remove("active");
+      this.activeTagg = "";
+    }
   }
 }
-const test = new Tagging();
 
-let tegId;
-const rect = document.querySelector("#app").getBoundingClientRect();
-let rectTarget;
-let activeTeg;
-console.log(rect);
+const test = new Tagging(startTaggList);
 
 document.addEventListener("click", e => {
-  if (e.target.classList.contains("tegTitle")) {
-    activeTeg = e.target.parentNode;
-    tegId = activeTeg.getAttribute("data-teg");
-    rectTarget = e.target.parentNode.getBoundingClientRect();
-    test.setActive(tegId);
-    //e.target.nextSibling.classList.add("active");
+  if (e.target.classList.contains("taggTitle")) {
+    test.cleanActive();
+    test.setActive(e.target.parentNode);
   }
-  if (e.target.classList.contains("tegDelete")) {
-    test.deleteTeg();
+  if (e.target.classList.contains("taggDelete")) {
+    test.deleteTagg();
   }
-  if (e.target.parentNode !== activeTeg) {
-    test.setActive();
+  if (!e.target.classList.contains("taggTitle")) {
+    test.cleanActive();
   }
 });
 
 document.addEventListener("mousedown", e => {
-  if (e.target.classList.contains("tegTitle")) {
-    test.isDrawing = true;
-  }
+  test.setMovable(e.target);
 });
 
 document.addEventListener("mouseup", () => {
-  test.isDrawing = false;
+  test.setMovable();
 });
 
 document.addEventListener("mousemove", e => {
-  test.moveTeg(e);
+  test.moveTagg(e);
 });
