@@ -1,27 +1,11 @@
-// import "./slider.scss";
-
 export default class Carousel {
   constructor(param) {
     this.wraper = param.wraper;
     this.carousel = this.wraper.querySelector(".carousel");
     param.autoSide ? this.autoSlide(true) : false;
-    // this.calcWraperWidth();
     this.createDots();
     this.autoTime;
   }
-
-  // calcWraperWidth() {
-  //   // const carousel = this.wraper.querySelector(".carousel");
-  //   const slide = document.querySelector(".slide");
-  //   const slideRect = slide.getBoundingClientRect();
-
-  //   const calcSlides = this.carousel.querySelectorAll(".slide").length;
-  //   const marginSliders = 20;
-  //   console.log(slideRect.width * 3);
-  //   console.log();
-
-  //   this.carousel.style.width = `${slideRect.width * 9 * 20}px`;
-  // }
 
   createDots() {
     const dotsWraper = this.wraper.querySelector(".slider-dots");
@@ -36,20 +20,31 @@ export default class Carousel {
     }
   }
 
-  moveLeft() {
+  moveRight() {
     clearTimeout(this.autoTime);
     this.carousel.appendChild(this.carousel.children[0]);
+    const slideImg = this.carousel.children[2].querySelector("img");
+    if (slideImg.getAttribute("src") === null) {
+      const srcSlide = slideImg.getAttribute("data-src");
+      console.log(srcSlide);
+
+      slideImg.setAttribute("src", srcSlide);
+    }
     this.autoSlide();
-    // setTimeout(() => {
-    //   this.autoSlide();
-    // }, 4000).bind(this);
   }
 
-  moveRight() {
+  moveLeft() {
     clearTimeout(this.autoTime);
     this.carousel.prepend(
       this.carousel.children[this.carousel.children.length - 1]
     );
+    const slideImg = this.carousel.children[0].querySelector("img");
+    if (slideImg.getAttribute("src") === null) {
+      const srcSlide = slideImg.getAttribute("data-src");
+      console.log(srcSlide);
+
+      slideImg.setAttribute("src", srcSlide);
+    }
     this.autoSlide();
   }
 
@@ -57,7 +52,7 @@ export default class Carousel {
     const then = this;
     function auto() {
       then.autoTime = setTimeout(() => {
-        then.moveLeft();
+        then.moveRight();
         auto();
       }, 4000);
     }

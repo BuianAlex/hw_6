@@ -5,10 +5,10 @@ const mySlider = new Carousel({
   autoSide: true
 });
 document.querySelector(".slide-next").addEventListener("click", e => {
-  mySlider.moveLeft();
+  mySlider.moveRight();
 });
 document.querySelector(".slide-prev").addEventListener("click", e => {
-  mySlider.moveRight();
+  mySlider.moveLeft();
 });
 const carousel = document.querySelector(".carousel");
 let touchstart;
@@ -17,24 +17,17 @@ carousel.addEventListener(
   "touchstart",
   e => {
     touchstart = e.touches[0].pageX;
-    console.log("touchstart");
   },
   false
 );
 carousel.addEventListener(
   "touchend",
-  e => {
-    console.log(e);
-
-    // const currentX = e.touches[0].pageX;
+  () => {
     if (touchCurent > touchstart) {
-      console.log("move to the right");
-      mySlider.moveRight();
-    } else if (touchCurent < touchstart) {
-      console.log("move to the left");
       mySlider.moveLeft();
+    } else if (touchCurent < touchstart) {
+      mySlider.moveRight();
     }
-    console.log("touchend");
   },
   false
 );
