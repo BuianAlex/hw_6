@@ -5,6 +5,30 @@
 body {
   box-sizing: border-box;
 }
+h1 {
+  font-size: 5vw;
+  line-height: 12vw;
+}
+p {
+  margin: 1rem 0;
+  font-size: 1rem;
+}
 .with-carousel {
-  margin: 10% 0;
+  margin: 0rem 0 2rem;
+}
+footer {
+  margin: 1rem 0;
+  text-align: center;
+}
+@media (min-width: 576px) {
+  h1 {
+    font-size: 3vw;
+    line-height: 7vw;
+  }
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 992px) {
+}
+@media (min-width: 1200px) {
 }
