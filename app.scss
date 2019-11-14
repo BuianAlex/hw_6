@@ -1,0 +1,10 @@
+@import "./modules/reset.css";
+@import "./modules/greed.css";
+@import "./modules/mySlider/slider.scss";
+
+body {
+  box-sizing: border-box;
+}
+.with-carousel {
+  margin: 10% 0;
+}
