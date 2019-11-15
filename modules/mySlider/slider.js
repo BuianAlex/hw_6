@@ -26,8 +26,6 @@ export default class Carousel {
     const slideImg = this.carousel.children[2].querySelector("img");
     if (slideImg.getAttribute("src") === null) {
       const srcSlide = slideImg.getAttribute("data-src");
-      console.log(srcSlide);
-
       slideImg.setAttribute("src", srcSlide);
     }
     this.autoSlide();
@@ -41,8 +39,6 @@ export default class Carousel {
     const slideImg = this.carousel.children[0].querySelector("img");
     if (slideImg.getAttribute("src") === null) {
       const srcSlide = slideImg.getAttribute("data-src");
-      console.log(srcSlide);
-
       slideImg.setAttribute("src", srcSlide);
     }
     this.autoSlide();

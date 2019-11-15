@@ -32,13 +32,6 @@ carousel.addEventListener(
   false
 );
 
-// document.addEventListener(
-//   "touchcancel",
-//   () => {
-//     console.log("touchcancel");
-//   },
-//   false
-// );
 carousel.addEventListener(
   "touchmove",
   e => {
