@@ -3,7 +3,7 @@ export default class Carousel {
     this.wraper = param.wraper;
     this.carousel = this.wraper.querySelector(".carousel");
     param.autoSide ? this.autoSlide(true) : false;
-    this.createDots();
+    // this.createDots();
     this.autoTime;
   }
 
