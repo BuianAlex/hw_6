@@ -1,10 +1,12 @@
 export default class Carousel {
   constructor(param) {
     this.wraper = param.wraper;
+    this.stateTimeOut = true;
+    this.autoTime;
     this.carousel = this.wraper.querySelector(".carousel");
     param.autoSide ? this.autoSlide(true) : false;
-    // this.createDots();
-    this.autoTime;
+    this.autoStop();
+    this.createDots();
   }
 
   createDots() {
@@ -44,12 +46,33 @@ export default class Carousel {
     this.autoSlide();
   }
 
+  autoStop() {
+    const carouselRct = this.carousel.getBoundingClientRect();
+    if (
+      (carouselRct.height + carouselRct.top < 0 && this.stateTimeOut) ||
+      carouselRct.top > window.innerHeight
+    ) {
+      clearTimeout(this.autoTime);
+      this.stateTimeOut = false;
+    }
+    if (
+      carouselRct.height + carouselRct.top > 0 &&
+      !this.stateTimeOut &&
+      carouselRct.top < window.innerHeight
+    ) {
+      this.autoSlide();
+      this.stateTimeOut = true;
+    }
+  }
+
   autoSlide() {
     const then = this;
     function auto() {
       then.autoTime = setTimeout(() => {
-        then.moveRight();
-        auto();
+        if (then.stateTimeOut) {
+          then.moveRight();
+          auto();
+        }
       }, 4000);
     }
     auto();

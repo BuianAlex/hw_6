@@ -4,15 +4,19 @@ const mySlider = new Carousel({
   wraper: document.querySelector(".wraper-carousel"),
   autoSide: true
 });
+
 document.querySelector(".slide-next").addEventListener("click", e => {
   mySlider.moveRight();
 });
+
 document.querySelector(".slide-prev").addEventListener("click", e => {
   mySlider.moveLeft();
 });
+
 const carousel = document.querySelector(".carousel");
 let touchstart;
 let touchCurent;
+
 carousel.addEventListener(
   "touchstart",
   e => {
@@ -20,6 +24,7 @@ carousel.addEventListener(
   },
   false
 );
+
 carousel.addEventListener(
   "touchend",
   () => {
@@ -39,3 +44,7 @@ carousel.addEventListener(
   },
   false
 );
+
+window.addEventListener("scroll", function(e) {
+  mySlider.autoStop();
+});
