@@ -2,17 +2,19 @@ export default class Carousel {
   constructor(param) {
     this.wraper = param.wraper;
     this.dotsWraper = this.wraper.querySelector(".slider-dots");
+    this.carousel = this.wraper.querySelector(".carousel");
     this.stateTimeOut = true;
     this.autoSideTimeOut = param.autoSideTimeOut;
+    this.displaySlide = param.displaySlide;
     this.autoTime = null;
-    this.carousel = this.wraper.querySelector(".carousel");
     param.autoSide ? this.autoSlide() : false;
-    this.list();
+    this.setSlideOrder();
     this.autoStop();
     this.createDots();
+    this.events();
   }
 
-  list() {
+  setSlideOrder() {
     for (let i = 0; i < this.carousel.children.length; i += 1) {
       this.carousel.children[i].setAttribute("slide-order", i);
       // delete for prod
@@ -25,8 +27,10 @@ export default class Carousel {
 
   createDots() {
     const dotsWraper = this.wraper.querySelector(".slider-dots");
-    const rest = this.carousel.children.length % 3 === 0 ? 0 : 1;
-    const calcDots = Math.floor(this.carousel.children.length / 3) + rest;
+    const rest =
+      this.carousel.children.length % this.displaySlide === 0 ? 0 : 1;
+    const calcDots =
+      Math.floor(this.carousel.children.length / this.displaySlide) + rest;
     let index = 0;
     while (index < calcDots) {
       const dot = document.createElement("span");
@@ -57,7 +61,10 @@ export default class Carousel {
     let n = 0;
     let dotActive = 0;
     while (n < this.dotsWraper.children.length) {
-      if (slideOder <= 3 * n + slideOder && slideOder >= n * 3) {
+      if (
+        slideOder <= this.displaySlide * n + slideOder &&
+        slideOder >= n * this.displaySlide
+      ) {
         dotActive = n;
       }
       n += 1;
@@ -69,13 +76,16 @@ export default class Carousel {
     clearTimeout(this.autoTime);
     const slids = [...this.carousel.children];
     const curPosition = slids.findIndex(item => {
-      return item.getAttribute("slide-order") === (data * 3).toString();
+      return (
+        item.getAttribute("slide-order") ===
+        (data * this.displaySlide).toString()
+      );
     });
     const endss = slids.splice(0, curPosition);
     let index = 0;
-    while (index < 3) {
+    while (index < this.displaySlide) {
       const slideImg = slids[index].querySelector("img");
-      this.getLazyUrl(slideImg);
+      this.setLazyUrl(slideImg);
       index += 1;
     }
     const newList = [...slids, ...endss];
@@ -90,7 +100,7 @@ export default class Carousel {
     clearTimeout(this.autoTime);
     this.carousel.appendChild(this.carousel.children[0]);
     const slideImg = this.carousel.children[2].querySelector("img");
-    this.getLazyUrl(slideImg);
+    this.setLazyUrl(slideImg);
     this.dotsState();
     // this.autoSlide();
   }
@@ -101,7 +111,7 @@ export default class Carousel {
       this.carousel.children[this.carousel.children.length - 1]
     );
     const slideImg = this.carousel.children[0].querySelector("img");
-    this.getLazyUrl(slideImg);
+    this.setLazyUrl(slideImg);
     this.dotsState();
     // this.autoSlide();
   }
@@ -125,10 +135,11 @@ export default class Carousel {
     }
   }
 
-  getLazyUrl(slideImg) {
-    if (slideImg.getAttribute("src") === null) {
-      const srcSlide = slideImg.getAttribute("data-src");
-      slideImg.setAttribute("src", srcSlide);
+  // eslint-disable-next-line class-methods-use-this
+  setLazyUrl(img) {
+    if (img.getAttribute("src") === null) {
+      const srcSlide = img.getAttribute("data-src");
+      img.setAttribute("src", srcSlide);
     }
   }
 
@@ -143,5 +154,59 @@ export default class Carousel {
       }, then.autoSideTimeOut);
     }
     auto();
+  }
+
+  events() {
+    let touchstart;
+    let touchCurent;
+    this.wraper.querySelector(".slide-next").addEventListener(
+      "click",
+      () => {
+        this.moveRight();
+      },
+      this
+    );
+    this.wraper.querySelector(".slide-prev").addEventListener(
+      "click",
+      () => {
+        this.moveLeft();
+      },
+      this
+    );
+    this.carousel.addEventListener(
+      "touchstart",
+      e => {
+        touchstart = e.touches[0].pageX;
+      },
+      this
+    );
+
+    this.carousel.addEventListener(
+      "touchend",
+      () => {
+        if (touchCurent > touchstart) {
+          this.moveLeft();
+        } else if (touchCurent < touchstart) {
+          this.moveRight();
+        }
+      },
+      this
+    );
+
+    this.carousel.addEventListener(
+      "touchmove",
+      e => {
+        touchCurent = e.touches[0].pageX;
+      },
+      this
+    );
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        this.autoStop();
+      },
+      this
+    );
   }
 }
