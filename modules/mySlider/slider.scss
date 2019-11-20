@@ -1,7 +1,7 @@
 $controlsColor: rgba(255, 255, 255, 0.7);
 $controlsColorDarck: rgba(0, 0, 0, 0.7);
-$dot-size: 10px;
-$dot-color: rgba(0, 0, 0, 0.7);
+$dot-size: 13px;
+$dot-color: rgba(0, 0, 0, 0.6);
 .wraper-carousel {
   position: relative;
   width: 100%;
@@ -85,13 +85,15 @@ $dot-color: rgba(0, 0, 0, 0.7);
   width: 400px;
   margin: 0 auto;
 }
-.slider-dots {
+.wraper-dots {
   display: flex;
   justify-content: center;
+  align-items: center;
   position: absolute;
-  width: 80%;
+  width: 100%;
+  height: $dot-size;
   left: 50%;
-  bottom: 0.5%;
+  bottom: 10px;
   transform: translateX(-50%);
 }
 .dot {
@@ -99,23 +101,74 @@ $dot-color: rgba(0, 0, 0, 0.7);
   height: $dot-size;
   width: $dot-size;
   margin: 0 5px;
-  background-color: $dot-color;
   border-radius: 50%;
-  display: inline-block;
   transition: background-color, transform 0.6s ease;
   z-index: 100;
 }
 
 .dotActive,
 .dot:hover {
-  background-color: #717171;
   transform: scale(1.2);
   backface-visibility: hidden; //fix
+}
+.slider-dots_inside {
+  bottom: 10vw;
+  .dot {
+    background-color: $controlsColor;
+    &:hover {
+      background-color: #fff;
+    }
+  }
+  .dotActive {
+    background-color: #fff;
+  }
+}
+.slider-dots_outside {
+  bottom: 5px;
+  .dot {
+    background-color: $dot-color;
+    &:hover {
+      background-color: #000;
+    }
+  }
+  .dotActive {
+    background-color: #000;
+  }
 }
 
 @media (min-width: 576px) {
   .slide-prev,
   .slide-next {
     display: block;
+  }
+}
+@media (min-width: 768px) {
+  .slider-dots_inside {
+    bottom: 5vw;
+  }
+}
+
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
   }
 }

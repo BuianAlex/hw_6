@@ -1,7 +1,7 @@
 export default class Carousel {
   constructor(param) {
     this.wraper = param.wraper;
-    this.dotsWraper = this.wraper.querySelector(".slider-dots");
+    this.dotsWraper = this.wraper.querySelector(".wraper-dots");
     this.carousel = this.wraper.querySelector(".carousel");
     this.stateTimeOut = true;
     this.autoSideTimeOut = param.autoSideTimeOut;
@@ -26,7 +26,6 @@ export default class Carousel {
   }
 
   createDots() {
-    const dotsWraper = this.wraper.querySelector(".slider-dots");
     const rest =
       this.carousel.children.length % this.displaySlide === 0 ? 0 : 1;
     const calcDots =
@@ -43,7 +42,7 @@ export default class Carousel {
         },
         this
       );
-      dotsWraper.appendChild(dot);
+      this.dotsWraper.appendChild(dot);
       index += 1;
     }
     this.dotsState();
@@ -74,26 +73,27 @@ export default class Carousel {
 
   dotClick(data) {
     clearTimeout(this.autoTime);
-    const slids = [...this.carousel.children];
-    const curPosition = slids.findIndex(item => {
+    const slides = [...this.carousel.children];
+    const curPosition = slides.findIndex(item => {
       return (
         item.getAttribute("slide-order") ===
         (data * this.displaySlide).toString()
       );
     });
-    const endss = slids.splice(0, curPosition);
-    let index = 0;
-    while (index < this.displaySlide) {
-      const slideImg = slids[index].querySelector("img");
-      this.setLazyUrl(slideImg);
-      index += 1;
-    }
-    const newList = [...slids, ...endss];
+    const endList = slides.splice(0, curPosition);
+    const newList = [...slides, ...endList];
     this.carousel.innerHTML = "";
     newList.forEach(item => {
       this.carousel.appendChild(item);
     });
+    let index = 0;
+    while (index < this.displaySlide) {
+      const slideImg = this.carousel.children[index].querySelector("img");
+      this.setLazyUrl(slideImg);
+      index += 1;
+    }
     this.dotsState();
+    this.autoSlide();
   }
 
   moveRight() {
@@ -102,7 +102,7 @@ export default class Carousel {
     const slideImg = this.carousel.children[2].querySelector("img");
     this.setLazyUrl(slideImg);
     this.dotsState();
-    // this.autoSlide();
+    this.autoSlide();
   }
 
   moveLeft() {
@@ -113,7 +113,7 @@ export default class Carousel {
     const slideImg = this.carousel.children[0].querySelector("img");
     this.setLazyUrl(slideImg);
     this.dotsState();
-    // this.autoSlide();
+    this.autoSlide();
   }
 
   autoStop() {
