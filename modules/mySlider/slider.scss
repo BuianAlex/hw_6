@@ -38,6 +38,13 @@ $dot-color: rgba(0, 0, 0, 0.7);
     transform: translate(-50%, -50%);
   }
 }
+.num {
+  position: absolute;
+  top: 1%;
+  left: 1%;
+  color: beige;
+  font-size: 24px;
+}
 .slide-prev,
 .slide-next {
   display: none;
@@ -72,7 +79,7 @@ $dot-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   width: 80%;
   left: 50%;
-  bottom: 0%;
+  bottom: 1%;
   transform: translateX(-50%);
 }
 .dot {

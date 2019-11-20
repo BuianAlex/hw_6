@@ -2,14 +2,15 @@ import Carousel from "./modules/mySlider/slider";
 
 const mySlider = new Carousel({
   wraper: document.querySelector(".wraper-carousel"),
-  autoSide: true
+  autoSide: true,
+  autoSideTimeOut: 4000
 });
 
-document.querySelector(".slide-next").addEventListener("click", e => {
+document.querySelector(".slide-next").addEventListener("click", () => {
   mySlider.moveRight();
 });
 
-document.querySelector(".slide-prev").addEventListener("click", e => {
+document.querySelector(".slide-prev").addEventListener("click", () => {
   mySlider.moveLeft();
 });
 
@@ -45,6 +46,6 @@ carousel.addEventListener(
   false
 );
 
-window.addEventListener("scroll", function(e) {
+window.addEventListener("scroll", () => {
   mySlider.autoStop();
 });
